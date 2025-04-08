@@ -8,9 +8,9 @@
 
 1. Download and install [MetaHookSv](https://github.com/hzqst/MetaHookSv).
 
-2. Build or download .dll, put it into `svencoop/metahook/plugins` directory.
+2. Build or download .dll, put it into `/SteamLibrary/steamapps/common/Sven Co-op/svencoop/metahook/plugins` directory.
 
-3. Add `HUDColor.dll` in `svencoop/metahook/configs/plugins.lst` as a newline.
+3. Add `HUDColor.dll` in `/SteamLibrary/steamapps/common/Sven Co-op/svencoop/metahook/configs/plugins.lst` as a newline.
 
 4. Enjoy.
 
