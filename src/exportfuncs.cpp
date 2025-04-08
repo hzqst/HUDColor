@@ -1,10 +1,9 @@
 #include <metahook.h>
 #include <cmath>
 #include "cvardef.h"
+#include "privatehook.h"
 
-void(*R_ScaleColor)(int* r, int* g, int* b, int a);
-void(__fastcall* R_CalcDamageDirection)(void* pthis, int dummy, int x, float y, float z);
-cl_enginefunc_t gEngfuncs;
+cl_enginefunc_t gEngfuncs = {0};
 
 typedef struct
 {
@@ -80,6 +79,7 @@ void HUD_Init(void)
 
 	gExportfuncs.HUD_Init();
 }
+
 int HUD_Redraw(float time, int intermission)
 {
 	if (bIsInFadeOut && flNextFadeTime <= time)
@@ -94,15 +94,18 @@ int HUD_Redraw(float time, int intermission)
 	}
 	if (pHUDCVarDizzyTime->value != flNowDizzyTime)
 		iTotalStep = max(0, pHUDCVarDizzyTime->value / FADE_INTERVAL);
+
 	return gExportfuncs.HUD_Redraw(time, intermission);
 }
+
 int GetSafeColorCVar(cvar_t* cvar)
 {
 	if (cvar->value > 255 || cvar->value < 0)
 		gEngfuncs.Cvar_SetValue(cvar->name, min(max(cvar->value, 0), 255));
 	return cvar->value;
 }
-void __fastcall HookedCalcDamageDirection(void*pThis, int dummy, int x, float y, float z)
+
+void __fastcall R_CalcDamageDirection(void*pThis, int dummy, int x, float y, float z)
 {
 	if (pHUDCVarDizzy->value > 0)
 	{
@@ -116,8 +119,9 @@ void __fastcall HookedCalcDamageDirection(void*pThis, int dummy, int x, float y,
 			pNowColor.b = GetSafeColorCVar(pHUDCVarPainB);
 		}
 	}
-	R_CalcDamageDirection(pThis, dummy, x, y, z);
+	gPrivateFuncs.R_CalcDamageDirection(pThis, dummy, x, y, z);
 }
+
 void RGBToHSV(int r, int g, int b, float& h, float& s, float& v)
 {
 	float fr = r / 255.0, fg = g / 255.0, fb = b / 255.0;
@@ -179,12 +183,11 @@ void ForwardRGBColor()
 	pNowColor.g += pHUDCVarG->value - pNowColor.g * flStep;
 	pNowColor.b += pHUDCVarB->value - pNowColor.b * flStep;
 }
-void HookedColorScale(int* r, int* g, int* b, int a)
+
+void R_ScaleColor(int* r, int* g, int* b, int a)
 {
-	//正常状态
 	if (*r == 100 && *g == 130 && *b == 200)
 	{
-		//挨打抖动
 		if (bIsInFadeOut)
 		{
 			if (iStepCounter < iTotalStep)
@@ -218,13 +221,12 @@ void HookedColorScale(int* r, int* g, int* b, int a)
 		*g = pNowColor.g;
 		*b = pNowColor.b;
 	}
-	//濒死状态
+
 	else if (*r == 250 && *g == 0 && *b == 0)
 	{
 		*r = GetSafeColorCVar(pHUDCVarPainR);
 		*g = GetSafeColorCVar(pHUDCVarPainG);
 		*b = GetSafeColorCVar(pHUDCVarPainB);
 	}
-	//还有一个255 16 16手电筒暂时不替换
-	R_ScaleColor(r, g, b, a);
+	gPrivateFuncs.R_ScaleColor(r, g, b, a);
 }
