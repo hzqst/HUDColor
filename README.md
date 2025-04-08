@@ -28,7 +28,7 @@
 
 # Build
 
-1. `git --recursive https://github.com/hzqst/HUDColor`
+1. `git clone --recursive https://github.com/hzqst/HUDColor`
 
 2. Open `.sln` with visual studio.
 
