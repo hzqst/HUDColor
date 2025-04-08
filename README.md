@@ -2,19 +2,15 @@
 
 ## Change Sven Co-op HUD color
 
-### It's basically a product of learning metabook
-
-### most code is copied from [Renderer.dll](https://github.com/hzqst/MetaHookSv/tree/main/Plugins/Renderer)
-
 ![TitleIMG](https://github.com/DrAbcrealone/HUDColor/blob/main/img/IMG-1.png)
 
 # Install
 
 1. Download and install [MetaHookSv](https://github.com/hzqst/MetaHookSv).
 
-2. Build or download .dll file into `svencoop/metahook/plugins` directory.
+2. Build or download .dll, put it into `svencoop/metahook/plugins` directory.
 
-3. Add HUDColor.dll in `svencoop/metahook/configs/plugins.lst` as a newline.
+3. Add `HUDColor.dll` in `svencoop/metahook/configs/plugins.lst` as a newline.
 
 4. Enjoy.
 
@@ -32,12 +28,8 @@
 
 # Build
 
-1. Clone or download [MetaHookSv](https://github.com/hzqst/MetaHookSv) source code.
+1. `git --recursive https://github.com/hzqst/HUDColor`
 
-2. Clone or download `HUDColor` source code
+2. Open `.sln` with visual studio.
 
-3. Put `HUDColor` directory into `MetaHookSv/Plugins`
-
-4. Open `.sln` with visual studio.
-
-5. Build.
+3. Build.
