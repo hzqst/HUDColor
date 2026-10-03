@@ -28,8 +28,18 @@
 
 # Build
 
-1. `git clone --recursive https://github.com/hzqst/HUDColor`
+Requirements: Windows, Visual Studio 2022, CMake 3.21 or newer. The first configure downloads VC-LTL 5.3.1 into `thirdparty/cache`.
 
-2. Open `.sln` with visual studio.
+1. Run `scripts\build-HUDColor-x86-Release.bat` (or `scripts\build-HUDColor-x86-Debug.bat`).
 
-3. Build.
+2. The plugin and its PDB are installed to `install\x86\<Configuration>\svencoop\metahook\plugins`.
+
+3. Copy `HUDColor.dll` into `svencoop/metahook/plugins`, as described in Install.
+
+The MetaHook SDK is fetched automatically at a pinned commit. To build against a local MetaHook source tree instead, pass it on the command line or export the same environment variable before configuring:
+
+```
+scripts\build-HUDColor-x86-Release.bat -DMETAHOOK_SOURCE_PATH=D:\MetaHook
+```
+
+The path is the repository root that provides `include/metahook.h`, `include/HLSDK`, `include/Interface` and `include/SourceSDK`.

@@ -1,5 +1,7 @@
 /.vs
 /Debug
 /Release
-HUDColor.vcxproj.user
-.gitignore
+/build/
+/install/
+/thirdparty/cache/
+*.user

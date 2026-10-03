@@ -54,7 +54,8 @@ void Sys_ErrorEx(const char* fmt, ...)
 	if (gEngfuncs.pfnClientCmd)
 		gEngfuncs.pfnClientCmd("escape\n");
 
-	MessageBox(NULL, msg, "Fatal Error", MB_ICONERROR);
+	// metahook.h undefines the MessageBox macro, so the ANSI entry point must be named explicitly.
+	MessageBoxA(NULL, msg, "Fatal Error", MB_ICONERROR);
 	TerminateProcess((HANDLE)(-1), 0);
 }
 
